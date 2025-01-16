@@ -6,8 +6,8 @@ const {
 } = require("../controllers/groceryController");
 const router = express.Router();
 
-router.get("/items", getItems);
 router.post("/add", addItem);
+router.get("/items", getItems);
 router.delete("/delete/:id", deleteItem);
 
 module.exports = router;
