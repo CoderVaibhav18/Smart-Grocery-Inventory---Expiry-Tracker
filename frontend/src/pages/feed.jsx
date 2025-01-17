@@ -1,35 +1,41 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const Feed = () => {
-  const [groceryList, setGroceryList] = useState([
-    {
-      id: 1,
-      name: "Milk",
-      purchaseDate: "2025-01-10",
-      expiryDate: "2025-01-15",
-      quantity: 2,
-    },
-    {
-      id: 2,
-      name: "Bread",
-      purchaseDate: "2025-01-12",
-      expiryDate: "2025-01-14",
-      quantity: 1,
-    },
-    {
-      id: 3,
-      name: "Eggs",
-      purchaseDate: "2025-01-11",
-      expiryDate: "2025-01-20",
-      quantity: 12,
-    },
-  ]);
+  const [groceryList, setGroceryList] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  // Function to remove an item
-  const handleRemove = (id) => {
-    const updatedList = groceryList.filter((item) => item.id !== id);
-    setGroceryList(updatedList);
+  // Fetch grocery data from the backend
+  useEffect(() => {
+    const fetchGroceryData = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/items`
+        );
+        setGroceryList(response.data);
+        setLoading(false);
+      } catch (err) {
+        setError("Failed to fetch data.");
+        setLoading(false);
+      }
+    };
+
+    fetchGroceryData();
+  }, []);
+
+  // Function to remove a grocery item
+  const handleRemove = async (id) => {
+    try {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/delete/${id}`);
+      setGroceryList(groceryList.filter((item) => item.id !== id));
+    } catch (err) {
+      console.error("Failed to remove item", err);
+    }
   };
+
+  if (loading) return <p className="text-center">Loading...</p>;
+  if (error) return <p className="text-center text-red-500">{error}</p>;
 
   return (
     <div className="max-w-6xl mx-auto p-4">
