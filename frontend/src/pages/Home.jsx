@@ -1,13 +1,34 @@
-import React from "react";
+import { useState } from "react";
 import "remixicon/fonts/remixicon.css";
-import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Home = () => {
-  const submitHandler = (e) => {
+  const [groceryName, setGroceryName] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [purchaseDate, setPurchaseDate] = useState("");
+  const [expiryData, setExpiryData] = useState("");
+
+  const submitHandler = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
-    console.log(data);
+    const groceryData = {
+      name: groceryName,
+      quantity: quantity,
+      purchase_date: purchaseDate,
+      expiry_date: expiryData,
+    };
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_URL}/api/add`,
+      groceryData
+    );
+    if (response.status === 200) {
+      alert("Grocery item added successfully");
+      console.log(response.data.message);
+
+      setGroceryName("");
+      setQuantity("");
+      setPurchaseDate("");
+      setExpiryData("");
+    }
   };
 
   return (
@@ -19,26 +40,30 @@ const Home = () => {
         <input
           className="py-2 px-8 bg-[#eeee] text-lg font-normal rounded-lg w-full"
           type="text"
+          value={groceryName}
+          onChange={(e) => setGroceryName(e.target.value)}
           placeholder="Name of the grocery"
-          name="name"
         />
         <input
           className="py-2 px-8 bg-[#eeee] text-lg font-normal rounded-lg w-full"
           type="number"
+          value={quantity}
+          onChange={(e) => setQuantity(e.target.value)}
           placeholder="Grocery quantity"
-          name="quantity"
         />
         <input
           className="py-2 px-8 bg-[#eeee] text-lg font-normal rounded-lg w-full"
           type="text"
+          value={purchaseDate}
+          onChange={(e) => setPurchaseDate(e.target.value)}
           placeholder="Purchase Date yyyy-mm-dd"
-          name="purchase_date"
         />
         <input
           className="py-2 px-8 bg-[#eeee] text-lg font-normal rounded-lg w-full"
           type="text"
+          value={expiryData}
+          onChange={(e) => setExpiryData(e.target.value)}
           placeholder="Expiry Date yyyy-mm-dd"
-          name="expiry_date"
         />
         <button
           type="submit"
