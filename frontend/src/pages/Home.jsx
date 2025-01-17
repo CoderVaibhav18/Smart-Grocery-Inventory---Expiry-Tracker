@@ -1,12 +1,15 @@
 import { useState } from "react";
 import "remixicon/fonts/remixicon.css";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [groceryName, setGroceryName] = useState("");
   const [quantity, setQuantity] = useState("");
   const [purchaseDate, setPurchaseDate] = useState("");
   const [expiryData, setExpiryData] = useState("");
+
+  // const navigate = useNavigate();
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -71,10 +74,16 @@ const Home = () => {
         />
         <button
           type="submit"
-          className="w-full py-2 rounded-lg font-medium bg-[#111] text-white"
+          className="w-full mb-5 py-3 rounded-lg font-medium bg-[#111] text-white"
         >
           Submit
         </button>
+        <Link
+          to="/feed"
+          className="w-full text-center mb-5 py-3 rounded-lg font-medium bg-red-500 text-white"
+        >
+          Show all Grocery Items
+        </Link>
       </form>
     </div>
   );

@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Feed = () => {
   const [groceryList, setGroceryList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   // Fetch grocery data from the backend
   useEffect(() => {
@@ -41,7 +44,7 @@ const Feed = () => {
     <div className="max-w-6xl mx-auto p-4">
       <h2 className="text-3xl font-semibold mb-6 text-center">Grocery List</h2>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-2  lg:grid-cols-3">
         {groceryList.length > 0 ? (
           groceryList.map((item) => (
             <div
@@ -72,9 +75,17 @@ const Feed = () => {
             </div>
           ))
         ) : (
-          <p className="text-center text-gray-600 col-span-full">
-            No grocery items available.
-          </p>
+          <div className="text-center">
+            <p className="text-center text-gray-600 col-span-full">
+              No grocery items available.
+            </p>
+            <button
+              onClick={() => navigate("/")}
+              className="mt-4 bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition-colors duration-300"
+            >
+              Back to add
+            </button>
+          </div>
         )}
       </div>
     </div>
