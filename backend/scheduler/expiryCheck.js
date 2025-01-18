@@ -3,7 +3,8 @@ const cron = require('node-cron');
 const sendReminderEmail = require('../config/email');
 
 // Runs daily at 9 AM
-cron.schedule('* * * * *', () => {
+const scheduller = () => {
+  cron.schedule('* * * * *', () => {
     const query = `SELECT * FROM groceries WHERE DATEDIFF(expiry_date, CURDATE()) = 1`;
 
     db.query(query, (err, results) => {
@@ -19,3 +20,8 @@ cron.schedule('* * * * *', () => {
         }
     });
 });
+}
+
+module.exports = {
+  scheduller
+}
