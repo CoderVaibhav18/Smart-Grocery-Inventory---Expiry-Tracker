@@ -56,10 +56,11 @@ const Feed = () => {
                   {item.name}
                 </h3>
                 <p className="text-sm text-gray-600">
-                  <strong>Purchase Date:</strong> {item.purchaseDate}
+                  <strong>Purchase Date:</strong>{" "}
+                  {item.purchase_date.slice(0, 10)}
                 </p>
                 <p className="text-sm text-gray-600">
-                  <strong>Expiry Date:</strong> {item.expiryDate}
+                  <strong>Expiry Date:</strong> {item.expiry_date.slice(0, 10)}
                 </p>
                 <p className="text-sm text-gray-600">
                   <strong>Quantity:</strong> {item.quantity}
