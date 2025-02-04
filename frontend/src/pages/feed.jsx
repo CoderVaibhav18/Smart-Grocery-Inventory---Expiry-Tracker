@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+console.log();
+
 const Feed = () => {
   const [groceryList, setGroceryList] = useState([]);
   const [loading, setLoading] = useState(true);
